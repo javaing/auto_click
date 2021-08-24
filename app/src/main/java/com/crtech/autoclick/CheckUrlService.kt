@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.accessibilityservice.GestureDescription.StrokeDescription
 import android.graphics.Path
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.Nullable
@@ -17,20 +18,20 @@ class CheckUrlService : AccessibilityService() {
     //初始化
     override fun onServiceConnected() {
         super.onServiceConnected()
-        toast("锁定中...");
+        Log.e(TAG,"啟動中...");
         mService = this
     }
 
     //实现辅助功能
     override fun onAccessibilityEvent(event: AccessibilityEvent) {}
     override fun onInterrupt() {
-        toast("功能被迫中断");
+        Log.e(TAG,"功能被迫中断");
         mService = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        toast("功能已关闭");
+        Log.e(TAG,"功能已关闭");
         mService = null
     }
 
@@ -48,7 +49,7 @@ class CheckUrlService : AccessibilityService() {
             null,
             null
         )
-        toast("click...($x, $y)")
+        Log.e(TAG,"click...($x, $y)")
     }
 
     /**
@@ -82,16 +83,21 @@ class CheckUrlService : AccessibilityService() {
      */
     @Nullable
     fun findFirst(vararg tfs: AbstractTF<Any>): AccessibilityNodeInfo? {
+        Log.e("", "findFirst:1")
         if (tfs.size == 0) throw InvalidParameterException("AbstractTF不允许传空")
+        Log.e("", "findFirst:2")
         val rootInfo = rootInActiveWindow ?: return null
         var idTextTFCount = 0
         var idTextIndex = 0
+        Log.e("", "findFirst size:${ tfs.size}")
         for (i in 0 until tfs.size) {
             if (tfs[i] is AbstractTF.IdTextTF) {
+                Log.e("", "findFirst:${tfs[i].mCheckData}")
                 idTextTFCount++
                 idTextIndex = i
             }
         }
+        Log.e("", "findFirst idTextTFCount:$idTextTFCount")
         return when (idTextTFCount) {
             0 -> {
                 val returnInfo: AccessibilityNodeInfo? = findFirstRecursive(rootInfo, *tfs)
