@@ -4,9 +4,13 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.accessibilityservice.GestureDescription.StrokeDescription
 import android.graphics.Path
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import java.security.InvalidParameterException
@@ -33,6 +37,16 @@ class CheckUrlService : AccessibilityService() {
         super.onDestroy()
         Log.e(TAG,"功能已关闭");
         mService = null
+    }
+
+    fun toast(msg:String) {
+        val messageHandlerThread = HandlerThread("MessageHandlerThread");
+        messageHandlerThread.start();
+
+        val handler = Handler(messageHandlerThread.getLooper());
+        handler.post{
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**

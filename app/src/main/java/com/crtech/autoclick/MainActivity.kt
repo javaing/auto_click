@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         
         findViewById<TextView>(R.id.tv).setOnClickListener {
-            Log.e(TAG,"click...")
+            mService?.toast("click...")
 
             val url = "http://g95ekwxn.mengxids.com/"
             //val url = "http://z5pg4xt04o.huolixc.com/?linkid=7&pop=1"
@@ -46,18 +46,18 @@ class MainActivity : AppCompatActivity() {
         postRun(3000) {
             val ces: AccessibilityNodeInfo? = mService?.findFirst(AbstractTF.newWebText("无法", false))
             if (ces == null) {
-                //Log.e(TAG,"找「$target」失败")
+                //mService?.toast("找「$target」失败")
             } else {
-                Log.e(TAG,"控件text:${ces.text}")
+                mService?.toast("控件text:${ces.text}")
             }
         }
 
         postRun(4000) {
             val ces: AccessibilityNodeInfo? = mService?.findFirst(AbstractTF.newWebText("页面", false))
             if (ces == null) {
-                Log.e(TAG,"無符合(页面)")
+                mService?.toast("無符合(页面)")
             } else {
-                Log.e(TAG,"控件text:${ces.text}")
+                mService?.toast("控件text:${ces.text}")
             }
         }
 
@@ -65,18 +65,18 @@ class MainActivity : AppCompatActivity() {
             val ces: AccessibilityNodeInfo? =
                 mService?.findFirst(AbstractTF.newWebText("刷新", false))
             if (ces == null) {
-                Log.e(TAG,"無符合(刷新)")
+                mService?.toast("無符合(刷新)")
             } else {
-                Log.e(TAG, "控件text:${ces.text}")
+                mService?.toast( "控件text:${ces.text}")
             }
         }
 
         postRun(6000) {
             val ces: AccessibilityNodeInfo? = mService?.findFirst(AbstractTF.newWebText("訪問", false))
             if (ces == null) {
-                Log.e(TAG,"無符合(訪問)")
+                mService?.toast("無符合(訪問)")
             } else {
-                Log.e(TAG,"控件text:${ces.text}")
+                mService?.toast("控件text:${ces.text}")
             }
         }
     }
